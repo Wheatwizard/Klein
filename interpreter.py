@@ -2,9 +2,9 @@ from Stack import Stack
 
 class Interpreter(object):
 	def __init__(self,source,config):
-		source = source.split("\n")
-		self.source = [list(x.ljust(max(map(len,source)),"."))for x in source]
-		self.dim = (len(self.source),len(self.source[0]))
+		source = source.strip().split("\n")
+		self.dim = max(map(len,source)+[len(source)])
+		self.source = [list(x.ljust(self.dim,"."))for x in source]+[["."]*self.dim]*(self.dim-len(source))
 		self.direction = [0,1]
 		self.location = [0,0]
 		self.memory = Stack()
@@ -15,17 +15,17 @@ class Interpreter(object):
 		if matching:
 			self.location = self.location[::-1]
 			self.direction = self.direction[::-1]
-		self.location[0] %= self.dim[0]
-		self.location[1] %= self.dim[1]
+		self.location[0] %= self.dim
+		self.location[1] %= self.dim
 	def move(self):
 		self.location = [
 			self.location[0]+self.direction[0],
 			self.location[1]+self.direction[1]
 		]
 		#Important bit
-		if self.location[0] >= self.dim[0]:
+		if self.location[0] >= self.dim:
 			self.wrapAround(0,self.config[0],self.config[1])
-		if self.location[1] >= self.dim[1]:
+		if self.location[1] >= self.dim:
 			self.wrapAround(1,self.config[0],self.config[2])
 		if self.location[0] < 0:
 			self.wrapAround(0,self.config[0],self.config[2])
@@ -77,4 +77,4 @@ class Interpreter(object):
 				self.move()
 	def __str__(self):
 		#temporary (for debugging purposes)
-		return "\n".join("".join("+"if [x,y]==self.location else self.source[x][y] for y in range(self.dim[1])) for x in range(self.dim[0]))
+		return "\n".join(" ".join("+"if [x,y]==self.location else self.source[x][y] for y in range(self.dim)) for x in range(self.dim))
