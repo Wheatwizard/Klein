@@ -1,13 +1,13 @@
 from Stack import Stack
 
 class Interpreter(object):
-	def __init__(self,source,config):
+	def __init__(self,source,config,input):
 		source = source.strip().split("\n")
 		self.dim = max(map(len,source)+[len(source)])
 		self.source = [list(x.ljust(self.dim,"."))for x in source]+[["."]*self.dim]*(self.dim-len(source))
 		self.direction = [0,1]
 		self.location = [0,0]
-		self.memory = Stack()
+		self.memory = Stack(input)
 		# (matching, >, >>)
 		self.config = config
 	def wrapAround(self, coord, matching, twist):

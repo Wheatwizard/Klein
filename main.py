@@ -5,18 +5,6 @@ from interpreter import Interpreter
 parser = argparse.ArgumentParser(description="Klein Interpreter")
 
 parser.add_argument(
-	"source",
-	metavar = "Source",
-	help = "The name of the file from which the source is read."
-)
-
-parser.add_argument(
-	"topology",
-	metavar = "Topology",
-	help = "Three bits that denote the topology. (Temporary)"
-)
-
-parser.add_argument(
 	"-v",
 	"--version",
 	action = "version",
@@ -30,12 +18,33 @@ parser.add_argument(
 	help = "Runs the interpreter in debug mode."
 )
 
+
+parser.add_argument(
+	"source",
+	metavar = "Source",
+	help = "The name of the file from which the source is read."
+)
+
+parser.add_argument(
+	"topology",
+	metavar = "Topology",
+	help = "Three bits that denote the topology. (Temporary)"
+)
+
+parser.add_argument(
+	"input",
+	metavar = "Input",
+	type = int,
+	nargs = "*",
+	help = "Integer input."
+)
+
 args = parser.parse_args()
 
 with open(args.source) as file:
 	source = file.read()
 
-a=Interpreter(source,map(int,args.topology))
+a=Interpreter(source,map(int,args.topology),args.input)
 
 if args.debug:
 	screen = curses.initscr()
