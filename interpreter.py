@@ -23,14 +23,14 @@ class Interpreter(object):
 			self.location[1]+self.direction[1]
 		]
 		#Important bit
-		if self.location[0] >= self.dim:
-			self.wrapAround(0,self.config[0],self.config[1])
-		if self.location[1] >= self.dim:
-			self.wrapAround(1,self.config[0],self.config[2])
 		if self.location[0] < 0:
 			self.wrapAround(0,self.config[0],self.config[2])
 		if self.location[1] < 0:
 			self.wrapAround(1,self.config[0],self.config[1])
+		if self.location[0] >= self.dim:
+			self.wrapAround(0,self.config[0],self.config[2-self.config[0]])
+		if self.location[1] >= self.dim:
+			self.wrapAround(1,self.config[0],self.config[1+self.config[0]])
 	def character(self):
 		return self.source[self.location[0]][self.location[1]]
 	def action(self):
