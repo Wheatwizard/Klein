@@ -8,6 +8,7 @@ class Interpreter(object):
 		self.direction = [0,1]
 		self.location = [0,0]
 		self.memory = Stack(input)
+		self.scope = Stack()
 		# (matching, >, >>)
 		self.config = config
 	def wrapAround(self, coord, matching, twist):
@@ -75,6 +76,10 @@ class Interpreter(object):
 		if self.character() == "?":
 			if self.memory.pop():
 				self.move()
+		if self.character() == "(":
+			self.scope.append(self.memory.pop())
+		if self.character() == ")":
+			self.memory.append(self.scope.pop())
 	def __str__(self):
 		#temporary (for debugging purposes)
 		return "\n".join(" ".join("+"if [x,y]==self.location else self.source[x][y] for y in range(self.dim)) for x in range(self.dim))

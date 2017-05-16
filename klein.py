@@ -62,4 +62,4 @@ else:
 		a.action()
 		a.move()
 	
-print "".join(map(str,a.memory))
+print " ".join(map(str,a.memory))
