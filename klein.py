@@ -48,13 +48,18 @@ a=Interpreter(source,map(int,args.topology),args.input)
 
 if args.debug:
 	screen = curses.initscr()
+	curses.start_color()
+	curses.use_default_colors()
+	curses.init_pair(1, curses.COLOR_RED, -1)
 
 	while a.direction != [0,0]:
-		screen.addstr(0,0,str(a))
+		a.output(screen)
+		screen.addstr(a.dim,0," ".join(map(str,a.memory)))
 		screen.refresh()
+		screen.getch()
+		screen.addstr(a.dim,0," "*len(" ".join(map(str,a.memory))))
 		a.action()
 		a.move()
-		screen.getch()
 
 	curses.endwin()
 else:

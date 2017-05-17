@@ -1,4 +1,5 @@
 from Stack import Stack
+import curses
 
 class Interpreter(object):
 	def __init__(self,source,config,input):
@@ -42,9 +43,9 @@ class Interpreter(object):
 		if self.character() == "|":
 			self.direction[1] *= -1
 		if self.character() == ">":
-			self.direction = (0,1)
+			self.direction = [0,1]
 		if self.character() == "<":
-			self.direction = (0,-1)
+			self.direction = [0,-1]
 		if self.character() == "@":
 			self.direction = [0,0]
 		if self.character() == "[":
@@ -80,6 +81,14 @@ class Interpreter(object):
 			self.scope.append(self.memory.pop())
 		if self.character() == ")":
 			self.memory.append(self.scope.pop())
-	def __str__(self):
+	def output(self,screen):
 		#temporary (for debugging purposes)
-		return "\n".join(" ".join("+"if [x,y]==self.location else self.source[x][y] for y in range(self.dim)) for x in range(self.dim))
+		for x in range(self.dim):
+			for y in range(self.dim):
+				if [x,y] == self.location:
+					if curses.has_colors():
+						screen.addstr(x,y*2,"+",curses.color_pair(1))
+					else:
+						screen.addstr(x,y*2,"+")
+				else:
+					screen.addstr(x,y*2,self.source[x][y])
