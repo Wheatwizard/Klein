@@ -1,35 +1,35 @@
 # Klein
 
-Klein is a 2 dimensional language that can be embedded on various topologocal
+Klein is a 2 dimensional language that can be embedded on various topological
 surfaces.
 
 # Surfaces
 
 Currently Klein supports 8 distinct topological surfaces (eventually it should support at least 12).
 A topology is denoted by 3 bits.  Each of the surfaces is represented by a
-fundemental polygon.  
+[fundemental square](https://en.wikipedia.org/wiki/Fundamental_polygon).
 
 ## First bit
 
 The first bit represents whether the edges map to their opposites or to their
 adjacents.  If it is 0 each edge maps to its opposite, (that is a pointer
-moving off the left will appear on the right and a pointer moving off
-the top will appear on the left).  If it is 1 each edge will map to its
-adjacent edge, (right goes to bottom, left goes to top)
+moving off the west will appear on the east and a pointer moving off
+the top will appear on the west).  If it is 1 each edge will map to its
+adjacent edge, (east goes to bottom, west goes to north)
 
 ## Second bit
 
-This determines the whether the left edge has the same direction as its match.
+This determines the whether the west edge has the same direction as its match.
 If it is 0 the directions match other wise the directions are opposite.
 
 ## Third bit
 
-This determines the whether the top edge has the same direction as its match.
+This determines the whether the north edge has the same direction as its match.
 If it is 0 the directions match other wise the directions are opposite.
 
 # Memory
 
-The memory is stored as a stack.  The stack is padded with zeros at the bottom.
+The memory is stored in a stack and a scope.  Both are padded with zeros at the bottom.
 At the end of execution the contents of the stack are printed.
 
 # Commands
@@ -44,15 +44,15 @@ At the end of execution the contents of the stack are printed.
 
 ## Directions
 
-- `>` Tells the ip to move right
+- `>` Tells the ip to move east
 
-- `<` Tells the ip to move left
+- `<` Tells the ip to move west
 
 ## Doors
 
-- `[` Reflects ip moving right; becomes `]` if the ip is horizontal
+- `[` Reflects the ip if it is moving east; becomes `]` if the ip is moving horizontally
 
-- `]` Reflects ip moving left; becomes `[` if the ip is horizontal
+- `]` Reflects the ip if it is moving west; becomes `[` if the ip is moving horizontally
 
 ## Jumps
 
@@ -62,17 +62,21 @@ At the end of execution the contents of the stack are printed.
 
 ## Stack manipulation
 
-- `:` Duplicates the tos
+- `:` Duplicates the top of the stack
 
 - `$` Swaps the top two items of the stack
 
+- `(` Pops from the stack and pushes to the scope
+
+- `)` Pops from the scope and pushes to the stack
+
 ## Literals
 
-- `0`-`9` pushes n to the top of th stack
+- `0`-`9` pushes n to the top of the stack
 
 ## Operations
 
-- `+` Adds the top two numbers
+- `+` Adds the north two numbers
 
 - `*` Multiplies the top two numbers
 
