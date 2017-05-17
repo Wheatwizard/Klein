@@ -7,15 +7,15 @@ surfaces.
 
 Currently Klein supports 8 distinct topological surfaces (eventually it should support at least 12).
 A topology is denoted by 3 bits.  Each of the surfaces is represented by a
-[fundemental square](https://en.wikipedia.org/wiki/Fundamental_polygon).
+[fundamental square](https://en.wikipedia.org/wiki/Fundamental_polygon).
 
 ## First bit
 
-The first bit represents whether the edges map to their opposites or to their
+The first bit represents whether the 4 edges map to their opposites or to their
 adjacents.  If it is 0 each edge maps to its opposite, (that is a pointer
 moving off the west will appear on the east and a pointer moving off
 the top will appear on the west).  If it is 1 each edge will map to its
-adjacent edge, (east goes to bottom, west goes to north)
+adjacent edge, (east goes to south, west goes to north)
 
 ## Second bit
 
@@ -29,8 +29,10 @@ If it is 0 the directions match other wise the directions are opposite.
 
 # Memory
 
-The memory is stored in a stack and a scope.  Both are padded with zeros at the bottom.
+The memory is stored in a stack and a scope.  Both are stacks padded with zeros at the bottom.
 At the end of execution the contents of the stack are printed.
+
+Like most 2D languages the ip starts in the upper lefthand corner moving east.
 
 # Commands
 
