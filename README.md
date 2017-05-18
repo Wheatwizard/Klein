@@ -5,26 +5,29 @@ surfaces.
 
 # Surfaces
 
-Currently Klein supports 8 distinct topological surfaces (eventually it should support at least 12).
-A topology is denoted by 3 bits.  Each of the surfaces is represented by a
+Currently Klein supports 12 distinct topological surfaces.
+A topology is denoted by 3 numbers.  Each of the surfaces is represented by a
 [fundamental square](https://en.wikipedia.org/wiki/Fundamental_polygon).
 
-## First bit
+## First number
 
-The first bit represents whether the 4 edges map to their opposites or to their
-adjacents.  If it is 0 each edge maps to its opposite, (that is a pointer
-moving off the west will appear on the east and a pointer moving off
-the top will appear on the west).  If it is 1 each edge will map to its
-adjacent edge, (east goes to south, west goes to north)
+The first bit represents which edges the west edge connects to.  If it is 0 the west edge connects to its
+opposite, (that is a pointer moving off the west will appear on the east and a pointer moving off
+the north edge will appear on the south edge).  If it is 1 the west edge will be connected to the south edge.
+If it is 2 the west edge connects to the north edge.
 
-## Second bit
-
-This determines the whether the west edge has the same direction as its match.
-If it is 0 the directions match other wise the directions are opposite.
+The other edges (not the west or the edge it connects to) will connect to each other.
 
 ## Third bit
 
+*We are going to skip the second number and come back to it hopefully this makes things clearer*
+
 This determines the whether the north edge has the same direction as its match.
+If it is 0 the directions match other wise the directions are opposite.
+
+## Second bit
+
+This determines the whether the other pair of edges have the same direction.
 If it is 0 the directions match other wise the directions are opposite.
 
 # Memory
@@ -75,6 +78,8 @@ Like most 2D languages the ip starts in the upper lefthand corner moving east.
 ## Literals
 
 - `0`-`9` pushes n to the top of the stack
+
+- `"` Starts and ends a string literal.  During a string literal commands are not run and instead their character values are pushed to the stack.
 
 ## Operations
 
