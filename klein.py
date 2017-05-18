@@ -18,6 +18,26 @@ parser.add_argument(
 	help = "Runs the interpreter in debug mode."
 )
 
+parser.add_argument(
+	"-a",
+	"--ASCII-in",
+	action = "store_true",
+	help = "Takes input as ASCII code points"
+)
+
+parser.add_argument(
+	"-A",
+	"--ASCII-out",
+	action = "store_true",
+	help = "Outputs as ASCII code points"
+)
+
+parser.add_argument(
+	"-c",
+	"--ASCII",
+	action = "store_true",
+	help = "Takes input and outputs by ASCII code points"
+)
 
 parser.add_argument(
 	"source",
@@ -34,7 +54,6 @@ parser.add_argument(
 parser.add_argument(
 	"input",
 	metavar = "Input",
-	type = int,
 	nargs = "*",
 	help = "Integer input."
 )
@@ -44,7 +63,10 @@ args = parser.parse_args()
 with open(args.source) as file:
 	source = file.read()
 
-a=Interpreter(source,map(int,args.topology),args.input)
+if args.ASCII or args.ASCII_in:
+	a=Interpreter(source,map(int,args.topology),map(ord," ".join(args.input)))
+else:
+	a=Interpreter(source,map(int,args.topology),map(int,args.input))
 
 if args.debug:
 	screen = curses.initscr()
@@ -66,5 +88,8 @@ else:
 	while a.direction != [0,0]:
 		a.action()
 		a.move()
-	
-print " ".join(map(str,a.memory))
+
+if args.ASCII or args.ASCII_out:
+	print "".join(map(chr,a.memory))
+else:	
+	print " ".join(map(str,a.memory))
