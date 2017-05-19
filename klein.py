@@ -2,6 +2,16 @@ import curses
 import argparse
 from interpreter import Interpreter
 
+# Checks the surface parameter is in the proper format
+def surface(start):
+	if len(start) != 3:
+		raise argparse.ArgumentTypeError("%s is improper improper length"%start)
+	a=map(int,start)
+	if a[0] > 2:raise argparse.ArgumentTypeError("The first number should be at most 2")
+	if a[1] > 1:raise argparse.ArgumentTypeError("The second number should be at most 1")
+	if a[2] > 1:raise argparse.ArgumentTypeError("The second number should be at most 1")
+	return a
+
 parser = argparse.ArgumentParser(description="Klein Interpreter")
 
 parser.add_argument(
@@ -48,6 +58,7 @@ parser.add_argument(
 parser.add_argument(
 	"topology",
 	metavar = "Topology",
+	type = surface,
 	help = "Three bits that denote the topology. (Temporary)"
 )
 
