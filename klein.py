@@ -1,15 +1,18 @@
-import curses
 import argparse
 from interpreter import Interpreter
+from KleinException import KleinException
 
 # Checks the surface parameter is in the proper format
 def surface(start):
-	if len(start) != 3:
+	if len(start) == 4:
+		pass
+	elif len(start) == 3:
+		a=map(int,start)
+		if a[0] > 2:raise argparse.ArgumentTypeError("The first number should be at most 2")
+		if a[1] > 1:raise argparse.ArgumentTypeError("The second number should be at most 1")
+		if a[2] > 1:raise argparse.ArgumentTypeError("The second number should be at most 1")
+	else:
 		raise argparse.ArgumentTypeError("%s is improper improper length"%start)
-	a=map(int,start)
-	if a[0] > 2:raise argparse.ArgumentTypeError("The first number should be at most 2")
-	if a[1] > 1:raise argparse.ArgumentTypeError("The second number should be at most 1")
-	if a[2] > 1:raise argparse.ArgumentTypeError("The second number should be at most 1")
 	return a
 
 parser = argparse.ArgumentParser(description="Klein Interpreter")
@@ -80,17 +83,25 @@ else:
 	a=Interpreter(source,map(int,args.topology),map(int,args.input))
 
 if args.debug:
+	try:
+		import curses
+	except ImportError:
+		raise KleinException("Cannot use debug mode without the curses library")
 	screen = curses.initscr()
 	curses.start_color()
 	curses.use_default_colors()
 	curses.init_pair(1, curses.COLOR_RED, -1)
 
 	while a.direction != [0,0]:
-		a.output(screen)
-		screen.addstr(a.dim,0," ".join(map(str,a.memory)))
+		a.output(screen,0,0)
+		try:
+			screen.addstr(a.dim,0," ".join(map(str,a.memory)))
+		except:pass
 		screen.refresh()
 		screen.getch()
-		screen.addstr(a.dim,0," "*len(" ".join(map(str,a.memory))))
+		try:
+			screen.addstr(a.dim,0," "*len(" ".join(map(str,a.memory))))
+		except:pass
 		a.action()
 		a.move()
 

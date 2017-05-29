@@ -1,0 +1,2 @@
+class KleinException(Exception):
+	pass
