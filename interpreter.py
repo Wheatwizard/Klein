@@ -118,7 +118,7 @@ class Interpreter(object):
 				try:
 					if [x,y] == self.location:
 						if curselib.has_colors():
-							screen.addstr(a+x,b+y*2,"X",curses.color_pair(1))
+							screen.addstr(a+x,b+y*2,"X",curselib.color_pair(1))
 						else:
 							screen.addstr(a+x,b+y*2,"X")
 					else:
