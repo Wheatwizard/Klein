@@ -106,13 +106,18 @@ class Interpreter(object):
 		elif self.character() == '"':
 			self.read = True
 	def output(self,screen,a,b):
-		import curses
-		#temporary (for debugging purposes)
+		try:
+			import curses
+			curselib = curses
+		except ImportError:
+			import unicurses
+			curselib = unicurses
+
 		for x in range(self.dim):
 			for y in range(self.dim):
 				try:
 					if [x,y] == self.location:
-						if curses.has_colors():
+						if curselib.has_colors():
 							screen.addstr(a+x,b+y*2,"X",curses.color_pair(1))
 						else:
 							screen.addstr(a+x,b+y*2,"X")

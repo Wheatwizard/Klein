@@ -83,15 +83,20 @@ else:
 	a=Interpreter(source,map(int,args.topology),map(int,args.input))
 
 if args.debug:
+	curselib = None
 	try:
 		import curses
+		curselib = curses
 	except ImportError:
-		raise KleinException("Cannot use debug mode without the curses library")
-	screen = curses.initscr()
-	curses.start_color()
-	curses.use_default_colors()
-	curses.init_pair(1, curses.COLOR_RED, -1)
-
+		try:
+			import unicurses
+			curselib = unicurses
+		except ImportError:
+			raise KleinException("Cannot use debug mode without a curses library.  Try installing either curses or unicurses.")
+	screen = curselib.initscr()
+	curselib.start_color()
+	curselib.use_default_colors()
+	curselib.init_pair(1, curselib.COLOR_RED, -1)
 	while a.direction != [0,0]:
 		a.output(screen,0,0)
 		try:
@@ -104,8 +109,8 @@ if args.debug:
 		except:pass
 		a.action()
 		a.move()
+		curselib.endwin()
 
-	curses.endwin()
 else:
 	while a.direction != [0,0]:
 		a.action()
