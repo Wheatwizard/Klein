@@ -97,19 +97,23 @@ if args.debug:
 	curselib.start_color()
 	curselib.use_default_colors()
 	curselib.init_pair(1, curselib.COLOR_RED, -1)
-	while a.direction != [0,0]:
-		a.output(screen,0,0)
-		try:
-			screen.addstr(a.dim,0," ".join(map(str,a.memory)))
-		except:pass
-		screen.refresh()
-		screen.getch()
-		try:
-			screen.addstr(a.dim,0," "*len(" ".join(map(str,a.memory))))
-		except:pass
-		a.action()
-		a.move()
+	try:
+		while a.direction != [0,0]:
+			a.output(screen,0,0)
+			try:
+				screen.addstr(a.dim,0," ".join(map(str,a.memory)))
+			except:pass
+			screen.refresh()
+			screen.getch()
+			try:
+				screen.addstr(a.dim,0," "*len(" ".join(map(str,a.memory))))
+			except:pass
+			a.action()
+			a.move()
+		curselib.endwin()			
+	except KeyboardInterrupt:
 		curselib.endwin()
+		print "Program exited"
 
 else:
 	while a.direction != [0,0]:
